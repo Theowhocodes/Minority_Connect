@@ -8,9 +8,9 @@ public interface BusinessDao {
 
     List<Business> displayAll();
 
-    Business findUserOwnedBusinesses(int userId);
+    List<Business> findUserOwnedBusinesses(int userId);
 
-    Business findByCategory(String businessCategory);
+    List<Business> findByCategory(String businessCategory);
 
     Business findByBusinessName(String businessName);
 
@@ -19,7 +19,9 @@ public interface BusinessDao {
     List<Business> findByOwnerFirst(String ownerFirstName);
 
     List<Business> findByOwnerLast(String ownerLastName);
-    
+    List<Business> userOwnedBusinesses(int userId);
+
+
 
     boolean create(String businessName, String businessNumber,
                    String city, String majorCity, String stateAbbreviation,

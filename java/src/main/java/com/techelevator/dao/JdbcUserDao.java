@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.techelevator.model.Business;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -36,7 +37,8 @@ public class JdbcUserDao implements UserDao {
         return userId;
     }
 
-	@Override
+
+    @Override
 	public User getUserById(int userId) {
 		String sql = "SELECT * FROM users WHERE user_id = ?";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);

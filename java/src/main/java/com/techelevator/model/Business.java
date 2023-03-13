@@ -6,19 +6,27 @@ public class Business {
 
     private int id;
     private String businessName;
-    private String city;
-    private String stateAbbreviation;
+    private String businessCategory;
     private String businessNumber;
+    private String city;
+
+    private String closestMajorCity;
+    private String stateAbbreviation;
     private String ownerFirstName;
     private String ownerLastName;
     private String ownerPhoneNumber;
 
-    public Business(int id, String businessName, String city, String stateAbbreviation, String businessNumber, String ownerFirstName, String ownerLastName, String ownerPhoneNumber) {
+    public Business() {}
+    public Business(int id, String businessName, String businessCategory, String businessNumber,
+                    String city, String closestMajorCity, String stateAbbreviation, String ownerFirstName,
+                    String ownerLastName, String ownerPhoneNumber) {
         this.id = id;
         this.businessName = businessName;
-        this.city = city;
-        this.stateAbbreviation = stateAbbreviation;
+        this.businessCategory = businessCategory;
         this.businessNumber = businessNumber;
+        this.city = city;
+        this.closestMajorCity = closestMajorCity;
+        this.stateAbbreviation = stateAbbreviation;
         this.ownerFirstName = ownerFirstName;
         this.ownerLastName = ownerLastName;
         this.ownerPhoneNumber = ownerPhoneNumber;
@@ -88,21 +96,40 @@ public class Business {
         this.ownerPhoneNumber = ownerPhoneNumber;
     }
 
-    public int hashCode(){
-        return Objects.hash(id, businessName, city, stateAbbreviation, businessNumber, ownerFirstName, ownerLastName, ownerPhoneNumber);
+    public String getBusinessCategory() {
+        return businessCategory;
+    }
+
+    public void setBusinessCategory(String businessCategory) {
+        this.businessCategory = businessCategory;
+    }
+
+    public String getClosestMajorCity() {
+        return closestMajorCity;
+    }
+
+    public void setClosestMajorCity(String closestMajorCity) {
+        this.closestMajorCity = closestMajorCity;
     }
 
     @Override
     public String toString() {
         return "Business{" +
                 "id=" + id +
-                ", business_name='" + businessName + '\'' +
-                ", city=" + city +
-                ", state_abbreviation=" + stateAbbreviation +
-                ", business_number=" + businessNumber +
-                ", owner_first_name=" + ownerFirstName +
-                ", owner_last_name=" + ownerLastName +
-                ", owner_phone_number=" + ownerPhoneNumber +
+                ", businessName='" + businessName + '\'' +
+                ", businessCategory='" + businessCategory + '\'' +
+                ", businessNumber='" + businessNumber + '\'' +
+                ", city='" + city + '\'' +
+                ", closestMajorCity='" + closestMajorCity + '\'' +
+                ", stateAbbreviation='" + stateAbbreviation + '\'' +
+                ", ownerFirstName='" + ownerFirstName + '\'' +
+                ", ownerLastName='" + ownerLastName + '\'' +
+                ", ownerPhoneNumber='" + ownerPhoneNumber + '\'' +
                 '}';
     }
+
+    public int hashCode(){
+        return Objects.hash(id, businessName, city, stateAbbreviation, businessNumber, ownerFirstName, ownerLastName, ownerPhoneNumber);
+    }
+
 }
