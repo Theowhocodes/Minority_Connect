@@ -21,11 +21,9 @@ CREATE TABLE users (
 CREATE TABLE businesses (
     business_id SERIAL NOT NULL,
     business_name varchar(100) NOT NULL,
-    business_category varchar(100) NOT NULL,
-    business_number varchar UNIQUE NOT NULL,
     city varchar(50) NOT NULL,
-    closest_major_city varchar(50) NOT NULL,
     state_abbreviation varchar(2) NOT NULL,
+    business_number varchar UNIQUE NOT NULL,
     owner_first_name varchar(50) NOT NULL,
     owner_last_name varchar(50) NOT NULL,
     owner_phone_number varchar NOT NULL,
@@ -37,7 +35,6 @@ CREATE TABLE businesses (
 CREATE TABLE users_businesses (
       user_id integer REFERENCES users (user_id),
       business_id integer REFERENCES businesses (business_id)
-
 );
 
 CREATE TABLE messages (

@@ -54,9 +54,9 @@ public class AuthenticationController {
     public void register(@Valid @RequestBody RegisterUserDto newUser) {
         try {
             User user = userDao.findByUsername(newUser.getUsername());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Already Exists.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Name Already Exists.");
         } catch (UsernameNotFoundException e) {
-            userDao.create(newUser.getUsername(),newUser.getPassword(), newUser.getRole());
+            userDao.create(newUser.getUsername(), newUser.getPassword(), newUser.getRole(), newUser.getEmail(), newUser.getPhoneNumber());
         }
     }
 
