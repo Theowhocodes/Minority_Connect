@@ -4,10 +4,12 @@ import com.techelevator.model.Business;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlInOutParameter;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class JdbcBusinessDao implements BusinessDao{
     private final JdbcTemplate jdbcTemplate;
 
@@ -21,8 +23,8 @@ public class JdbcBusinessDao implements BusinessDao{
     public List<Business> displayAll() {
         List<Business> allBusinesses = new ArrayList<>();
 
-        String sql = "SELECT business_name, business_category, business_number, city, closest_major_city, state_abbreviation from businesses "+
-                " Order by business_category; ";
+        String sql = "SELECT * from businesses " +
+                "Order by business_category; ";
 
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
         while(rowSet.next()){
@@ -60,7 +62,7 @@ public class JdbcBusinessDao implements BusinessDao{
             Business business = mapRowToBusiness(results);
             businessByCategory.add(business);
         }
-        return null;
+        return businessByCategory;
     }
 
     @Override
@@ -90,21 +92,45 @@ public class JdbcBusinessDao implements BusinessDao{
 
     @Override
     public List<Business> findByOwnerFirst(String ownerFirstName) {
-        return null;
+        List<Business> byOwnFirstName = new ArrayList<>();
+        String sql = "SELECT business_name, business_category, business_number, city, closest_major_city, state_abbreviation " +
+                "from businesses " +
+                "where owner_first_name = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, ownerFirstName);
+        while (results.next()){
+            Business businesses = mapRowToBusiness(results);
+            byOwnFirstName.add(businesses);
+        }
+        return byOwnFirstName;
     }
 
     @Override
     public List<Business> findByOwnerLast(String ownerLastName) {
-        return null;
+        List<Business> byOwnLastName = new ArrayList<>();
+        String sql = "SELECT business_name, business_category, business_number, city, closest_major_city, state_abbreviation " +
+                "from businesses " +
+                "where owner_last_name = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, ownerLastName);
+        while (results.next()){
+            Business businesses = mapRowToBusiness(results);
+            byOwnLastName.add(businesses);
+        }
+        return byOwnLastName;
     }
 
     @Override
-    public List<Business> userOwnedBusinesses(int userId) {
-        return null;
-    }
+    public boolean create(int userId, String businessName, String businessCategory, String businessNumber, String city, String majorCity, String stateAbbreviation, String ownerFirstName, String ownerLastName, String ownerPhoneNumber) {
+        String sql = "INSERT INTO businesses ( " +
+                " business_name, business_category, business_number, " +
+                "city, closest_major_city, state_abbreviation, owner_first_name, owner_last_name, owner_phone_number) " +
+                "VALUES ( 'test1', 'Computers & Electronics', '412-000-X01', 'Pittsburgh', 'Pittsburgh', 'PA' ,'user', 'name', '412-000-0001') " +
+                "returning business_id ";
+        SqlRowSet businessId = jdbcTemplate.queryForRowSet(sql, businessName, businessCategory, businessNumber, city, majorCity, stateAbbreviation, ownerFirstName, ownerLastName, ownerPhoneNumber);
+        if(businessId != null){
+            String sql2 = "INSERT INTO users_businesses (user_id, business_id) VALUES (?, ?)";
+            return jdbcTemplate.update(sql2, userId, businessId) == 1;
 
-    @Override
-    public boolean create(String businessName, String businessNumber, String city, String majorCity, String stateAbbreviation, String ownerFirstName, String ownerLastName, String ownerPhoneNumber) {
+        }
         return false;
     }
 

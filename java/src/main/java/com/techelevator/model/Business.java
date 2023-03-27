@@ -1,19 +1,33 @@
 package com.techelevator.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 public class Business {
 
     private int id;
+
     private String businessName;
+
+
     private String businessCategory;
+
     private String businessNumber;
     private String city;
 
+
     private String closestMajorCity;
+
     private String stateAbbreviation;
+
+
     private String ownerFirstName;
+
+
     private String ownerLastName;
+
+
     private String ownerPhoneNumber;
 
     public Business() {}
@@ -116,7 +130,7 @@ public class Business {
     public String toString() {
         return "Business{" +
                 "id=" + id +
-                ", businessName='" + businessName + '\'' +
+                ", business_Name='" + businessName + '\'' +
                 ", businessCategory='" + businessCategory + '\'' +
                 ", businessNumber='" + businessNumber + '\'' +
                 ", city='" + city + '\'' +

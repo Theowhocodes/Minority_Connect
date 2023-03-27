@@ -19,11 +19,10 @@ public interface BusinessDao {
     List<Business> findByOwnerFirst(String ownerFirstName);
 
     List<Business> findByOwnerLast(String ownerLastName);
-    List<Business> userOwnedBusinesses(int userId);
 
 
 
-    boolean create(String businessName, String businessNumber,
+    boolean create(int userId, String businessName, String businessCategory, String businessNumber,
                    String city, String majorCity, String stateAbbreviation,
                    String ownerFirstName, String ownerLastName, String ownerPhoneNumber);
 }
