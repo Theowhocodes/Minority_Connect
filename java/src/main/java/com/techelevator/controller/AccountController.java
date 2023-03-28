@@ -3,6 +3,8 @@ package com.techelevator.controller;
 import com.techelevator.dao.BusinessDao;
 import com.techelevator.dao.UserDao;
 import com.techelevator.model.Business;
+import com.techelevator.model.BusinessDto;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,15 @@ public class AccountController {
     @Autowired
     private UserDao userDao;
 
-    @GetMapping("/businesses")
-    public List<Business> viewAll(){
+//    @GetMapping("/businesses")
+//    public List<Business> viewAll(){
+//        return businessDao.displayAll();
+//    }
+
+    @GetMapping("/api/businesses")
+    public List<Business>viewAll(){
+        businessDao.displayAll();
+
         return businessDao.displayAll();
     }
 

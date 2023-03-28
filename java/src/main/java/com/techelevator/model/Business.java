@@ -10,7 +10,6 @@ public class Business {
 
     private String businessName;
 
-
     private String businessCategory;
 
     private String businessNumber;

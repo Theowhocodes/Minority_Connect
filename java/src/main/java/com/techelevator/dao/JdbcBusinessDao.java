@@ -19,11 +19,27 @@ public class JdbcBusinessDao implements BusinessDao{
 
 
 
+//    works but want to narrow columns shown during search; screen shot shows example
+//    @Override
+//    public List<Business> displayAll() {
+//        List<Business> allBusinesses = new ArrayList<>();
+//
+//        String sql = "SELECT * from businesses " +
+//                "Order by business_category; ";
+//
+//        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
+//        while(rowSet.next()){
+//            Business business = mapRowToBusiness(rowSet);
+//            allBusinesses.add(business);
+//        }
+//        return allBusinesses;
+//    }
+
     @Override
     public List<Business> displayAll() {
         List<Business> allBusinesses = new ArrayList<>();
 
-        String sql = "SELECT * from businesses " +
+        String sql = "SELECT business_id, business_name, business_category, business_number from businesses " +
                 "Order by business_category; ";
 
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
