@@ -31,7 +31,12 @@ CREATE TABLE businesses (
     owner_phone_number varchar NOT NULL,
 
     CONSTRAINT pk_business_id PRIMARY KEY (business_id),
-    CONSTRAINT uq_business_number UNIQUE (business_number)
+    CONSTRAINT uq_business_number UNIQUE (business_number),
+    CONSTRAINT valid_business_category CHECK (business_category IN ('automotive',
+    'business support & supplies', 'computers & electronics', 'construction & contractors',
+    'education', 'entertainment', 'food & dining', 'health & medicine', 'home & garden', 'legal & financial',
+    'manufacturing, wholesale or distribution', 'merchants (retail)', 'miscellaneous', 'personal care & services',
+    'real estate', 'travel & transportation'))
 );
 
 CREATE TABLE users_businesses (

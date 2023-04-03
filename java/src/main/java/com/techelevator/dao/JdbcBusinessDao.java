@@ -37,7 +37,7 @@ public class JdbcBusinessDao implements BusinessDao{
     @Override
     public List<BusinessDto> findUserOwnedBusinesses(int userId) {
         List<BusinessDto> userOwned = new ArrayList<>();
-        String sql = "SELECT business_name from businesses \n" +
+        String sql = "SELECT business_id, business_name, business_category, business_number, closest_major_city, state_abbreviation from businesses \n" +
                 "join users_businesses using(business_id) \n" +
                 "join users using(user_id) \n" +
                 "where user_id = ?;";
@@ -54,15 +54,15 @@ public class JdbcBusinessDao implements BusinessDao{
     public List<BusinessDto> findByCategory(String businessCategory) {
         List<BusinessDto> businessByCategory = new ArrayList<>();
         String sql =
-                "SELECT business_name, business_category, business_number, city, closest_major_city, state_abbreviation \n" +
-                "from businesses\n" +
-                "where business_category like '?%';";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, businessCategory);
-        while(results.next()){
-            BusinessDto business = mapRowToBusiness(results);
+                "SELECT business_id, business_name, business_category, business_number, closest_major_city, state_abbreviation from businesses \n " +
+                "where business_category like ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, businessCategory + "%");
+        while (results.next()) {
+            BusinessDto business = mapRowToBusinessLessInfo(results);
             businessByCategory.add(business);
         }
         return businessByCategory;
+
     }
 
     @Override

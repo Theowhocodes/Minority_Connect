@@ -35,6 +35,16 @@ public class AccountController {
         return businessDao.displayAll();
     }
 
+    @GetMapping("/api/businesses/{userId}")
+    public List<BusinessDto>userOwned(@PathVariable("userId")int userId){
+        return businessDao.findUserOwnedBusinesses(userId);
+    }
+
+    @GetMapping("/api/businesses/category/{businessCategory}")
+    public List<BusinessDto>businessesByCategory(@PathVariable("businessCategory")String businessCategory){
+        return businessDao.findByCategory(businessCategory);
+    }
+
 
 
 
