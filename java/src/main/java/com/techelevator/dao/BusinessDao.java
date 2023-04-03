@@ -1,24 +1,25 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Business;
+import com.techelevator.model.BusinessDto;
 
 import java.util.List;
 
 public interface BusinessDao {
 
-    List<Business> displayAll();
+    List<BusinessDto> displayAll();
 
-    List<Business> findUserOwnedBusinesses(int userId);
+    List<BusinessDto> findUserOwnedBusinesses(int userId);
 
-    List<Business> findByCategory(String businessCategory);
+    List<BusinessDto> findByCategory(String businessCategory);
 
-    Business findByBusinessName(String businessName);
+    BusinessDto findByBusinessName(String businessName);
 
-    List<Business> listByMajorCityName(String majorCity);
+    List<BusinessDto> listByMajorCityName(String majorCity);
 
-    List<Business> findByOwnerFirst(String ownerFirstName);
+    List<BusinessDto> findByOwnerFirst(String ownerFirstName);
 
-    List<Business> findByOwnerLast(String ownerLastName);
+    List<BusinessDto> findByOwnerLast(String ownerLastName);
 
 
 

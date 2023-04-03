@@ -1,11 +1,11 @@
 package com.techelevator.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 //currently unused
+
 public class BusinessDto {
     @JsonProperty("business_id")
-    private String id;
+    private int id;
 
     @JsonProperty("business_name")
     private String businessName;
@@ -21,21 +21,23 @@ public class BusinessDto {
     @JsonProperty("closest_major_city")
     private String closestMajorCity;
 
+    @JsonProperty("state_abbreviation")
+    private String stateAbbreviation;
 
+    @JsonProperty("owner_first_name")
+    private String ownerFirstName;
 
-    //constructor
-    public BusinessDto(String id, String businessName, String businessCategory, String businessNumber) {
-        this.id = id;
-        this.businessName = businessName;
-        this.businessCategory = businessCategory;
-        this.businessNumber = businessNumber;
-    }
+    @JsonProperty("owner_last_name")
+    private String ownerLastName;
 
-    public String getId() {
+    @JsonProperty("owner_phone_number")
+    private String ownerPhoneNumber;
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -61,5 +63,53 @@ public class BusinessDto {
 
     public void setBusinessNumber(String businessNumber) {
         this.businessNumber = businessNumber;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getClosestMajorCity() {
+        return closestMajorCity;
+    }
+
+    public void setClosestMajorCity(String closestMajorCity) {
+        this.closestMajorCity = closestMajorCity;
+    }
+
+    public String getStateAbbreviation() {
+        return stateAbbreviation;
+    }
+
+    public void setStateAbbreviation(String stateAbbreviation) {
+        this.stateAbbreviation = stateAbbreviation;
+    }
+
+    public String getOwnerFirstName() {
+        return ownerFirstName;
+    }
+
+    public void setOwnerFirstName(String ownerFirstName) {
+        this.ownerFirstName = ownerFirstName;
+    }
+
+    public String getOwnerLastName() {
+        return ownerLastName;
+    }
+
+    public void setOwnerLastName(String ownerLastName) {
+        this.ownerLastName = ownerLastName;
+    }
+
+    public String getOwnerPhoneNumber() {
+        return ownerPhoneNumber;
+    }
+
+    public void setOwnerPhoneNumber(String ownerPhoneNumber) {
+        this.ownerPhoneNumber = ownerPhoneNumber;
     }
 }

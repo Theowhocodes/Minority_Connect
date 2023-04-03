@@ -30,8 +30,7 @@ public class AccountController {
 //    }
 
     @GetMapping("/api/businesses")
-    public List<Business>viewAll(){
-        businessDao.displayAll();
+    public List<BusinessDto>viewAll(){
 
         return businessDao.displayAll();
     }

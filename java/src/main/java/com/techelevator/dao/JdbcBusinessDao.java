@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Business;
+import com.techelevator.model.BusinessDto;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlInOutParameter;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -18,48 +19,31 @@ public class JdbcBusinessDao implements BusinessDao{
     }
 
 
-
-//    works but want to narrow columns shown during search; screen shot shows example
-//    @Override
-//    public List<Business> displayAll() {
-//        List<Business> allBusinesses = new ArrayList<>();
-//
-//        String sql = "SELECT * from businesses " +
-//                "Order by business_category; ";
-//
-//        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
-//        while(rowSet.next()){
-//            Business business = mapRowToBusiness(rowSet);
-//            allBusinesses.add(business);
-//        }
-//        return allBusinesses;
-//    }
-
     @Override
-    public List<Business> displayAll() {
-        List<Business> allBusinesses = new ArrayList<>();
+    public List<BusinessDto> displayAll() {
+        List<BusinessDto> allBusinesses = new ArrayList<>();
 
-        String sql = "SELECT business_id, business_name, business_category, business_number from businesses " +
+        String sql = "SELECT business_id, business_name, business_category, business_number, closest_major_city, state_abbreviation from businesses " +
                 "Order by business_category; ";
 
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
         while(rowSet.next()){
-            Business business = mapRowToBusiness(rowSet);
+            BusinessDto business = mapRowToBusinessLessInfo(rowSet);
             allBusinesses.add(business);
        }
         return allBusinesses;
     }
 
     @Override
-    public List<Business> findUserOwnedBusinesses(int userId) {
-        List<Business> userOwned = new ArrayList<>();
+    public List<BusinessDto> findUserOwnedBusinesses(int userId) {
+        List<BusinessDto> userOwned = new ArrayList<>();
         String sql = "SELECT business_name from businesses \n" +
                 "join users_businesses using(business_id) \n" +
                 "join users using(user_id) \n" +
                 "where user_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
         while(results.next()){
-            Business business = mapRowToBusiness(results);
+            BusinessDto business = mapRowToBusinessLessInfo(results);
             userOwned.add(business);
         }
 
@@ -67,68 +51,72 @@ public class JdbcBusinessDao implements BusinessDao{
     }
 
     @Override
-    public List<Business> findByCategory(String businessCategory) {
-        List<Business> businessByCategory = new ArrayList<>();
+    public List<BusinessDto> findByCategory(String businessCategory) {
+        List<BusinessDto> businessByCategory = new ArrayList<>();
         String sql =
                 "SELECT business_name, business_category, business_number, city, closest_major_city, state_abbreviation \n" +
                 "from businesses\n" +
                 "where business_category like '?%';";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, businessCategory);
         while(results.next()){
-            Business business = mapRowToBusiness(results);
+            BusinessDto business = mapRowToBusiness(results);
             businessByCategory.add(business);
         }
         return businessByCategory;
     }
 
     @Override
-    public Business findByBusinessName(String businessName) {
-        String sql = "SELECT business_name, business_category, business_number, city, closest_major_city, state_abbreviation \n" +
+    public BusinessDto findByBusinessName(String businessName) {
+        String sql = "SELECT business_name, business_category, business_number, closest_major_city, state_abbreviation \n" +
                 "from businesses \n" +
-                "where business_name  like '?%';";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, businessName);
-        Business business = mapRowToBusiness(results);
+                "where business_name  like ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, businessName + "%");
+        if (results.next()){
+            return mapRowToBusinessLessInfo(results);
+        } else {
+            return null;
+        }
 
-        return business;
     }
 
+
     @Override
-    public List<Business> listByMajorCityName(String majorCity) {
-        List<Business> byMajorCity = new ArrayList<>();
+    public List<BusinessDto> listByMajorCityName(String majorCity) {
+        List<BusinessDto> byMajorCity = new ArrayList<>();
         String sql = "SELECT business_name, business_category, business_number, city, closest_major_city, state_abbreviation \n" +
                 "from businesses\n" +
                 "where closest_major_city = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, majorCity);
         while (results.next()){
-            Business business = mapRowToBusiness(results);
+            BusinessDto business = mapRowToBusiness(results);
             byMajorCity.add(business);
         }
         return byMajorCity;
     }
 
     @Override
-    public List<Business> findByOwnerFirst(String ownerFirstName) {
-        List<Business> byOwnFirstName = new ArrayList<>();
+    public List<BusinessDto> findByOwnerFirst(String ownerFirstName) {
+        List<BusinessDto> byOwnFirstName = new ArrayList<>();
         String sql = "SELECT business_name, business_category, business_number, city, closest_major_city, state_abbreviation " +
                 "from businesses " +
                 "where owner_first_name = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, ownerFirstName);
         while (results.next()){
-            Business businesses = mapRowToBusiness(results);
+            BusinessDto businesses = mapRowToBusiness(results);
             byOwnFirstName.add(businesses);
         }
         return byOwnFirstName;
     }
 
     @Override
-    public List<Business> findByOwnerLast(String ownerLastName) {
-        List<Business> byOwnLastName = new ArrayList<>();
+    public List<BusinessDto> findByOwnerLast(String ownerLastName) {
+        List<BusinessDto> byOwnLastName = new ArrayList<>();
         String sql = "SELECT business_name, business_category, business_number, city, closest_major_city, state_abbreviation " +
                 "from businesses " +
                 "where owner_last_name = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, ownerLastName);
         while (results.next()){
-            Business businesses = mapRowToBusiness(results);
+            BusinessDto businesses = mapRowToBusiness(results);
             byOwnLastName.add(businesses);
         }
         return byOwnLastName;
@@ -150,8 +138,20 @@ public class JdbcBusinessDao implements BusinessDao{
         return false;
     }
 
-    private Business mapRowToBusiness(SqlRowSet rowSet){
-        Business business = new Business();
+    private BusinessDto mapRowToBusinessLessInfo(SqlRowSet rowSet){
+        BusinessDto business = new BusinessDto();
+        business.setId(rowSet.getInt("business_id"));
+        business.setBusinessName(rowSet.getString("business_name"));
+        business.setBusinessCategory(rowSet.getString("business_category"));
+        business.setBusinessNumber(rowSet.getString("business_number"));
+        business.setClosestMajorCity(rowSet.getString("closest_major_city"));
+        business.setStateAbbreviation(rowSet.getString("state_abbreviation"));
+
+        return business;
+    }
+
+    private BusinessDto mapRowToBusiness(SqlRowSet rowSet){
+        BusinessDto business = new BusinessDto();
         business.setId(rowSet.getInt("business_id"));
         business.setBusinessName(rowSet.getString("business_name"));
         business.setBusinessCategory(rowSet.getString("business_category"));
