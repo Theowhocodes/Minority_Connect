@@ -3,7 +3,6 @@ package com.techelevator.dao;
 import com.techelevator.model.Business;
 import com.techelevator.model.BusinessDto;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.SqlInOutParameter;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
@@ -88,7 +87,7 @@ public class JdbcBusinessDao implements BusinessDao{
                 "where closest_major_city = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, majorCity);
         while (results.next()){
-            BusinessDto business = mapRowToBusiness(results);
+            BusinessDto business = mapRowToBusinessLessInfo(results);
             byMajorCity.add(business);
         }
         return byMajorCity;
@@ -102,7 +101,7 @@ public class JdbcBusinessDao implements BusinessDao{
                 "where owner_first_name = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, ownerFirstName);
         while (results.next()){
-            BusinessDto businesses = mapRowToBusiness(results);
+            BusinessDto businesses = mapRowToBusinessLessInfo(results);
             byOwnFirstName.add(businesses);
         }
         return byOwnFirstName;
@@ -116,7 +115,7 @@ public class JdbcBusinessDao implements BusinessDao{
                 "where owner_last_name = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, ownerLastName);
         while (results.next()){
-            BusinessDto businesses = mapRowToBusiness(results);
+            BusinessDto businesses = mapRowToBusinessLessInfo(results);
             byOwnLastName.add(businesses);
         }
         return byOwnLastName;
@@ -150,8 +149,8 @@ public class JdbcBusinessDao implements BusinessDao{
         return business;
     }
 
-    private BusinessDto mapRowToBusiness(SqlRowSet rowSet){
-        BusinessDto business = new BusinessDto();
+    private Business mapRowToBusiness(SqlRowSet rowSet){
+        Business business = new Business();
         business.setId(rowSet.getInt("business_id"));
         business.setBusinessName(rowSet.getString("business_name"));
         business.setBusinessCategory(rowSet.getString("business_category"));

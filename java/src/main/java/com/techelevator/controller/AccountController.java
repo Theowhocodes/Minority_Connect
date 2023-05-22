@@ -24,11 +24,6 @@ public class AccountController {
     @Autowired
     private UserDao userDao;
 
-//    @GetMapping("/businesses")
-//    public List<Business> viewAll(){
-//        return businessDao.displayAll();
-//    }
-
     @GetMapping("/api/businesses")
     public List<BusinessDto>viewAll(){
 

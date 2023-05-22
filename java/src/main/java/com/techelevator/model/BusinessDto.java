@@ -16,22 +16,12 @@ public class BusinessDto {
     @JsonProperty("business_number")
     private String businessNumber;
 
-    private String city;
-
     @JsonProperty("closest_major_city")
     private String closestMajorCity;
 
     @JsonProperty("state_abbreviation")
     private String stateAbbreviation;
 
-    @JsonProperty("owner_first_name")
-    private String ownerFirstName;
-
-    @JsonProperty("owner_last_name")
-    private String ownerLastName;
-
-    @JsonProperty("owner_phone_number")
-    private String ownerPhoneNumber;
 
     public int getId() {
         return id;
@@ -65,13 +55,6 @@ public class BusinessDto {
         this.businessNumber = businessNumber;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
 
     public String getClosestMajorCity() {
         return closestMajorCity;
@@ -89,27 +72,4 @@ public class BusinessDto {
         this.stateAbbreviation = stateAbbreviation;
     }
 
-    public String getOwnerFirstName() {
-        return ownerFirstName;
-    }
-
-    public void setOwnerFirstName(String ownerFirstName) {
-        this.ownerFirstName = ownerFirstName;
-    }
-
-    public String getOwnerLastName() {
-        return ownerLastName;
-    }
-
-    public void setOwnerLastName(String ownerLastName) {
-        this.ownerLastName = ownerLastName;
-    }
-
-    public String getOwnerPhoneNumber() {
-        return ownerPhoneNumber;
-    }
-
-    public void setOwnerPhoneNumber(String ownerPhoneNumber) {
-        this.ownerPhoneNumber = ownerPhoneNumber;
-    }
 }
