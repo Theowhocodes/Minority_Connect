@@ -40,6 +40,9 @@ public class AccountController {
         return businessDao.findByCategory(businessCategory);
     }
 
+    @GetMapping("/api/users")
+    public List<>
+
 
 
 
