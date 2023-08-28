@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.techelevator.model.Business;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -50,7 +49,7 @@ public class JdbcUserDao implements UserDao {
 	}
 
     @Override
-    public List<User> findAll() {
+    public List<User> displayAll() {
         List<User> users = new ArrayList<>();
         String sql = "select * from users";
 
@@ -67,7 +66,7 @@ public class JdbcUserDao implements UserDao {
     public User findByUsername(String username) {
         if (username == null) throw new IllegalArgumentException("Username cannot be null");
 
-        for (User user : this.findAll()) {
+        for (User user : this.displayAll()) {
             if (user.getUsername().equalsIgnoreCase(username)) {
                 return user;
             }

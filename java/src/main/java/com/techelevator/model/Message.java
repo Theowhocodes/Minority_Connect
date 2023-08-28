@@ -6,6 +6,8 @@ public class Message {
     private int recipient;
     private String content;
 
+    public Message() {}
+
     public Message(int id, int sender, int recipient, String content) {
         this.id = id;
         this.sender = sender;

@@ -2,18 +2,15 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.BusinessDao;
 import com.techelevator.dao.UserDao;
-import com.techelevator.model.Business;
 import com.techelevator.model.BusinessDto;
-import org.springframework.http.ResponseEntity;
+import com.techelevator.model.User;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -37,11 +34,15 @@ public class AccountController {
 
     @GetMapping("/api/businesses/category/{businessCategory}")
     public List<BusinessDto>businessesByCategory(@PathVariable("businessCategory")String businessCategory){
+
         return businessDao.findByCategory(businessCategory);
     }
 
     @GetMapping("/api/users")
-    public List<>
+    public List<User> allUsers(){
+
+        return userDao.displayAll();
+    }
 
 
 

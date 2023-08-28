@@ -17,7 +17,6 @@ public class JdbcBusinessDao implements BusinessDao{
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
     @Override
     public List<BusinessDto> displayAll() {
         List<BusinessDto> allBusinesses = new ArrayList<>();
