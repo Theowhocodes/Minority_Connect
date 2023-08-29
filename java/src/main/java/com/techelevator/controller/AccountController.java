@@ -41,7 +41,7 @@ public class AccountController {
     @GetMapping("/api/users")
     public List<User> allUsers(){
 
-        return userDao.displayAll();
+        return userDao.publicUserDisplay();
     }
 
 

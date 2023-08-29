@@ -63,6 +63,20 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
+    public List<User> publicUserDisplay(){
+        List<User> users = new ArrayList<>();
+        String sql = "Select username, email, phone_number from users";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while (results.next()){
+            User user = mapRowToPublicUser(results);
+            users.add(user);
+        }
+        return users;
+    }
+
+
+    @Override
     public User findByUsername(String username) {
         if (username == null) throw new IllegalArgumentException("Username cannot be null");
 
@@ -90,6 +104,14 @@ public class JdbcUserDao implements UserDao {
         user.setPassword(rs.getString("password_hash"));
         user.setAuthorities(Objects.requireNonNull(rs.getString("role")));
         user.setActivated(true);
+        user.setEmail(rs.getString("email"));
+        user.setPhoneNumber("phone_number");
+        return user;
+    }
+
+    private User mapRowToPublicUser(SqlRowSet rs) {
+        User user = new User();
+        user.setUsername(rs.getString("username"));
         user.setEmail(rs.getString("email"));
         user.setPhoneNumber("phone_number");
         return user;
